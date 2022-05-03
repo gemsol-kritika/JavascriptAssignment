@@ -24,6 +24,7 @@
     Table.style.justifyContent="center"
     Table.style.alignItems="center"
     Table.setAttribute("border","3");
+    content.style.margin="170px";
     tablebody.setAttribute("class","table table-hover")
     Table.appendChild(tablehead);
     Table.appendChild(tablebody);
