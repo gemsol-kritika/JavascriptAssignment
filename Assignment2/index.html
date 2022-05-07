@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-dark text-center">JAVASCRIPT ASSIGNMENT</h1>
+      <div class="col-md-6 m-auto d-block">
+        <h1 class="text-center text-danger">EMPLOYEE FORM</h1>
+        <form action="#" onclick="util()">
+          <div class="form-group">
+            <label>Name:</label>
+            <input
+              type="text"
+              placeholder="kritika sharma"
+              name="user"
+              class="form-control"
+              id="user"
+              autocomplete="off"
+              required="required"
+            />
+            <span id="username" class="text-danger font-weight-bold"></span>
+          </div>
+          <div class="form-group">
+            <label>Email:</label>
+            <input
+              type="email"
+              name="useremail"
+              placeholder="xyz@gmail.com"
+              class="form-control"
+              id="useremail"
+              autocomplete="off"
+              required="required"
+            />
+            <span id="emailuser" class="text-danger font-weight-bold"></span>
+          </div>
+          <div class="form-group">
+            <label>MobileNumber:</label>
+            <input
+              type="number"
+              placeholder="897980xxxx"
+              name="userphone"
+              class="form-control"
+              id="userphone"
+              autocomplete="off"
+            />
+            <span id="numberuser" class="text-danger font-weight-bold"></span>
+          </div>
+          <input
+            type="submit"
+            name="submit"
+            value="submit"
+            class="btn btn-success"
+          />
+        </form>
+      </div>
+      <div class="col-md-6 m-auto d-block">
+        <h1 class="text-center text-danger">Table</h1>
+        <table class="table table-striped table-dark table-bordered table-info table-hover">
+          <thead class="table-light" id="table_head"></thead>
+          <tbody class="table-body" id="table_body"></tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+  <script src="./index.js"></script>
+</html>
