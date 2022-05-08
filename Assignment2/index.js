@@ -4,6 +4,12 @@ function validation() {
     var user = document.getElementById("user").value;
     var userEmail = document.getElementById("useremail").value;
     var userPhone = document.getElementById("userphone").value;
+  //   for (var i = 0; i < localStorage.length; i++) {
+  //     var key   = localStorage.key(i);
+  //     var value = localStorage.getItem(key);
+  
+  //     console.log(key + ": " + value);
+  // }
 function isNameOfUserValid(){
     if (user == "") {
       document.getElementById("username").innerHTML =
@@ -51,6 +57,7 @@ function isPhoneNumberOfUserValid(){
     localStorage.setItem(index + "name",user);
     localStorage.setItem(index + "email",userEmail);
     localStorage.setItem(index+ "mobileno",userPhone);
+  
     showTable()
   }
 }
