@@ -1,88 +1,103 @@
+showData();
+document.getElementById("invalid_name").style.display = "none";
+document.getElementById("invalid_email").style.display = "none";
+document.getElementById("invalid_phone").style.display = "none";
+var valid_name, valid_email, valid_number;
+var regexForName =
+  /^([a-zA-Z]+|[a-zA-Z]+\s{1}[a-zA-Z]{1,}|[a-zA-Z]+\s{1}[a-zA-Z]{3,}\s{1}[a-zA-Z]{1,})$/i;
+var regexForEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+var regexForPhone = /^\d{10}$/;
 
-var index=1;
-var user;
-var userEmail;
-var userPhone;
-var isNameValid;
-var isEmailValid;
-var isPhoneValid;
-function util(){
-isNameValid=true;
-isEmailValid=true;
-isPhoneValid=true;
-user = document.getElementById("user").value;
-userEmail = document.getElementById("useremail").value;
-userPhone = document.getElementById("userphone").value;
-validation();
+function saveData() {
+  let input_name, email, phone;
+  valid_name = false;
+  valid_email = false;
+  valid_phone = false;
+  input_name = document.getElementById("name").value;
+  email = document.getElementById("email").value;
+  phone = document.getElementById("phone").value;
+  validation(input_name, email, phone);
 }
 
+function validation(input_name, email, phone) {
+  if (input_name.length && regexForName.test(input_name)) {
+    valid_name = true;
+    document.getElementById("invalid_name").style.display = "none";
+    document.getElementById("invalid_name").style.color = "red";
+    document.getElementById("name").style.borderColor = "green";
+  } else {
+    valid_name = false;
+    document.getElementById("name").style.borderColor = "red";
+  }
 
-function validation() {
-    if (user == "") {
-      isNameValid=false;
-      document.getElementById("username").innerHTML =
-        "PLEASE FILL THE VALUE FOR THE NAME FIELD";
-      return false;
+  if (email.length && regexForEmail.test(email)) {
+    valid_email = true;
+    document.getElementById("invalid_email").style.display = "none";
+    document.getElementById("email").style.borderColor = "green";
+  } else {
+    valid_email = false;
+    document.getElementById("email").style.borderColor = "red";
+  }
+
+  if (phone.length && regexForPhone.test(phone)) {
+    valid_phone = true;
+    document.getElementById("invalid_phone").style.display = "none";
+    document.getElementById("phone").style.borderColor = "green";
+  } else {
+    valid_phone = false;
+    document.getElementById("invalid_phone").style.display = "block";
+    document.getElementById("phone").style.borderColor = "red";
+  }
+
+  if (phone.length == 0 || phone.length == 10) {
+    document.getElementById("phone").style.borderColor = "green";
+  }
+
+  if (!valid_name || !valid_email) {
+    if (!valid_name) {
+      alert("Please fill the name correctly.");
+    } else if (!valid_email) {
+      alert("Please fill the email correctly.");
     }
-    if (user.length <= 2 || user.length >= 25) {
-      isNameValid=false;
-      document.getElementById("username").innerHTML =
-        "PLEASE ENTER A VALID NAME";
-      return false;
+  } else if (valid_name && valid_email) {
+    let data = new Array();
+    data = JSON.parse(localStorage.getItem("users"))
+      ? JSON.parse(localStorage.getItem("users"))
+      : [];
+    if (
+      data.some((value) => {
+        return value.email == email;
+      })
+    ) {
+      alert("Duplicate Data.");
+    } else {
+      data.push({
+        name: input_name,
+        email: email,
+        phone: phone,
+      });
+      localStorage.setItem("users", JSON.stringify(data));
     }
-    if (!isNaN(user)) {
-      isNameValid=false;
-      document.getElementById("username").innerHTML = "DIGITS NOT ALLOWED";
-      return false;
-    }
-var user_name = document.getElementsByName("user").value;
-var pattern = new RegExp(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/); //unacceptable chars
-if (pattern.test(user_name)) {
-  isNameValid=false;
-    document.getElementById("username").innerHTML = "SPECIAL CHARACTERS NOT ALLOWED";
-      return false;
-}
-    if (userEmail == "") {
-      isEmailValid=false;
-      document.getElementById("emailuser").innerHTML =
-        "PLEASE FILL THE VALUE FOR THE EMAIL FIELD";
-      return false;
-    }
-    if (userPhone != "" && userPhone.length < 10) {
-      isPhoneValid=false;
-      document.getElementById("numberuser").innerHTML =
-        "THE VALUE FOR THE MOBILE NUMBER IS INCORRECT";
-      return false;
-    }
-  alert(user+" "+userPhone+" "+userEmail);
- 
-  if (isNameValid && isEmailValid && isPhoneValid) {
-    localStorage.setItem(index + "name",user);
-    localStorage.setItem(index + "email",userEmail);
-    localStorage.setItem(index+ "mobileno",userPhone);
-    showTable()
+    showData();
   }
 }
-function showTable() {
-    var table = document.getElementById("table_body");
-    var tHead = document.getElementById("table_head");
-    let row = document.createElement("tr");
-    if(index == 1) {
-      let head = document.createElement("tr");
-      head.innerHTML = `<tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Email</th>
-      <th scope="col">Number</th>
-    </tr>`;
-    tHead.append(head);
+
+function showData() {
+  document.getElementById("displayData").innerHTML = "";
+  let records = new Array();
+  records = JSON.parse(localStorage.getItem("users"))
+    ? JSON.parse(localStorage.getItem("users"))
+    : [];
+  if (records) {
+    for (let i = 0; i < records.length; i++) {
+      let new_div = document.createElement("tr");
+
+      new_div.innerHTML = `<tr>
+                <td>${records[i].name}</td>
+                <td>${records[i].email}</td>
+                <td>${records[i].phone}</td>
+            `;
+      document.getElementById("displayData").append(new_div);
     }
-    row.innerHTML = `<tr>
-    <th scope="row">${index+"."}</th>
-    <td>${localStorage.getItem(index + "name")}</td>
-    <td>${localStorage.getItem(index + "email")}</td>
-    <td>${localStorage.getItem(index + "mobileno")===null?"":localStorage.getItem(index + "mobileno")}</td>
-  </tr>`;
-    table.append(row);
-    index++;
   }
+}
